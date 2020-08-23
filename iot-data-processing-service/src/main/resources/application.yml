@@ -1,0 +1,29 @@
+spring:
+  main:
+    web-application-type: none
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: 'iot-devices-group'
+
+relay42:
+  iotdataprocessing:
+    config:
+      spark:
+        app:VehicleConsumer
+          name: IOT data pipeline
+        master: spark://spark-master:7077
+        checkpoint:
+          dir: hdfs://namenode:8020/iot-pipeline/checkpoint
+      cassandra:
+        host: localhost
+        port: 9042
+        username: cassandra
+        password: cassandra
+        keep_alive: 10000
+      hdfs:
+        parquetLocation: hdfs://namenode:8020/iot-pipeline/iot-data-parque
+      kafka:
+        topic: H02
+
+

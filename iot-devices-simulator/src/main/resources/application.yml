@@ -1,0 +1,20 @@
+spring:
+  main:
+    web-application-type: none
+
+relay42:
+  config:
+    devices:
+      H02:
+        - remotePort: 5060
+          remoteHost: 'localHost'
+          deviceId: 1
+          dataTransmissionFreqInSecond: 1
+        - remotePort: 5060
+          remoteHost: 'localHost'
+          deviceId: 2
+          dataTransmissionFreqInSecond: 2
+        - remotePort: 5060
+          remoteHost: 'localHost'
+          deviceId: 3
+          dataTransmissionFreqInSecond: 3

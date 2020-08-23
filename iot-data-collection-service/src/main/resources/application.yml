@@ -1,0 +1,13 @@
+spring:
+  main:
+    web-application-type: none
+  kafka:
+    bootstrap-servers: localhost:9092
+
+relay42:
+  iotdatacollection:
+    protocol:
+      config:
+        H02:
+          port: 5060
+          group: 'vehicle-tracking'
