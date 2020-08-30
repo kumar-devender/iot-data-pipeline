@@ -1,6 +1,6 @@
 package com.relay42.iotdatacollection.protocol.h02;
 
-import com.relay42.dto.H02DTO;
+import com.relay42.protocol.h02.H02DTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.netty.channel.*;
@@ -21,7 +21,7 @@ public class H02ProtocolMessageHandler extends SimpleChannelUpstreamHandler {
         Object messageObject = e.getMessage();
         if (messageObject instanceof H02DTO) {
             H02DTO h02DTO = (H02DTO) messageObject;
-            log.debug("Converted object to [{}]", h02DTO);
+            log.info("Converted object to [{}] at topic [{}]", h02DTO, topic);
             kafkaTemplate.send(topic, h02DTO);
         }
         super.messageReceived(ctx, e);

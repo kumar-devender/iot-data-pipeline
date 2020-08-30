@@ -11,7 +11,7 @@
     <artifactId>iot-devices-simulator</artifactId>
     <name>iot-devices-simulator</name>
     <properties>
-        <netty.version>3.10.6.Final</netty.version>
+        <netty-dependency.version>3.10.6.Final</netty-dependency.version>
     </properties>
 
 
@@ -19,12 +19,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-bom</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty</artifactId>
-            <version>${netty.version}</version>
+            <version>${netty-dependency.version}</version>
         </dependency>
 
         <dependency>
@@ -39,11 +45,26 @@
         </dependency>
 
         <dependency>
+            <groupId>com.relay42</groupId>
+            <artifactId>dtos</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <artifactId>iot-data-pipeline</artifactId>
+        <groupId>com.relay42</groupId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
+
     <groupId>com.relay42</groupId>
     <artifactId>iot-data-processing-service</artifactId>
     <version>1.0.0-SNAPSHOT</version>
@@ -15,8 +15,8 @@
     <description>IOT data processing service</description>
 
     <properties>
-        <java.version>1.8</java.version>
         <spark-version>2.3.1</spark-version>
+        <cassandra.migration.version>2.4.0</cassandra.migration.version>
     </properties>
 
     <dependencies>
@@ -34,14 +34,20 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.11</artifactId>
             <version>${spark-version}</version>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming_2.11</artifactId>
             <version>${spark-version}</version>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>com.relay42</groupId>
+            <artifactId>dtos</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -54,7 +60,7 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.11</artifactId>
             <version>${spark-version}</version>
-            <scope>provided</scope>
+            <!-- <scope>provided</scope>-->
         </dependency>
 
         <dependency>
@@ -64,15 +70,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.cognitor.cassandra</groupId>
+            <artifactId>cassandra-migration-spring-boot-starter</artifactId>
+            <version>${cassandra.migration.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

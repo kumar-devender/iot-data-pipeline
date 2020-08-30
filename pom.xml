@@ -7,6 +7,8 @@
         <module>iot-devices-simulator</module>
         <module>iot-data-collection-service</module>
         <module>iot-data-processing-service</module>
+        <module>test-module</module>
+        <module>dtos</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -27,15 +29,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -43,6 +36,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -53,6 +47,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        
     </dependencies>
 
     <build>
