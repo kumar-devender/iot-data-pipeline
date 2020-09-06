@@ -5,18 +5,11 @@ spring:
     bootstrap-servers: localhost:9092
 #    consumer:
 #      group-id: 'iot-devices-group'
-#  data:
-#  cassandra:
-#    keyspace-name: iot_data_store
-#    contact-points: 127.0.0.1
-#    port: 9042
-#    password: cassandra
-#    username: cassandra
-#    local-datacenter: DC1
-#### Migration properties
-#cassandra:
-#  migration:
-#  keyspace-name: iot_data_store
+#### Cassandra Migration properties
+
+cassandra:
+  migration:
+    keyspace-name: iot_data_store
 
 relay42:
   iotdataprocessing:
