@@ -8,7 +8,6 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.relay42</groupId>
     <artifactId>iot-data-processing-service</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>iot-data-processing-service</name>
@@ -16,7 +15,7 @@
 
     <properties>
         <spark-version>2.3.1</spark-version>
-        <cassandra.migration.version>2.4.0</cassandra.migration.version>
+        <cassandra.migration.version>2.4.0_v4</cassandra.migration.version>
     </properties>
 
     <dependencies>
@@ -34,14 +33,14 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.11</artifactId>
             <version>${spark-version}</version>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-streaming_2.11</artifactId>
             <version>${spark-version}</version>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -57,16 +56,22 @@
         </dependency>
 
         <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>3.0.7</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.11</artifactId>
             <version>${spark-version}</version>
-            <!-- <scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.datastax.spark</groupId>
             <artifactId>spark-cassandra-connector_2.11</artifactId>
-            <version>2.4.1</version>
+            <version>3.0-alpha</version>
         </dependency>
 
         <dependency>

@@ -18,6 +18,7 @@ import scala.Tuple2;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.datastax.spark.connector.japi.CassandraStreamingJavaUtil.javaFunctions;
 
@@ -27,16 +28,13 @@ public class VehicleSpeedProcessor {
 
     @PostConstruct
     private void init() {
+        columnNameMappings.put("id", "id");
         columnNameMappings.put("protocol", "protocol");
         columnNameMappings.put("total", "total");
     }
 
 
     public void processTotalConnectedDevices(JavaDStream<H02DTO> stream) {
-        /*stream.foreachRDD(x -> {
-            x.collect().stream().forEach(n -> System.out.println("Consuming total devices : " + n));
-        });*/
-
         JavaPairDStream<String, Long> protocolPairDStream = stream.mapToPair(item -> new Tuple2<>(item.getProtocol(), 1L))
                 .reduceByKey((v1, v2) -> v1 + v2);
 
@@ -63,8 +61,8 @@ public class VehicleSpeedProcessor {
     private static Function<Tuple2<String, Long>, ConnectedDevicesView> totalConnectedDevicesViewFunc = (tuple -> {
         ConnectedDevicesView connectedDevicesView = new ConnectedDevicesView();
         connectedDevicesView.setProtocol(tuple._1);
+        connectedDevicesView.setId(UUID.randomUUID());
         connectedDevicesView.setTotal(tuple._2);
-        //connectedDevicesView.setTimeStamp(LocalDateTime.now());
         return connectedDevicesView;
     });
 

@@ -18,7 +18,6 @@ public class SparkConfig {
     public SparkConf conf() {
         return new SparkConf()
                 .setAppName(env.getProperty("relay42.iotdataprocessing.config.spark.app.name"))
-                //.setMaster("local");
                 .setMaster(env.getProperty("relay42.iotdataprocessing.config.spark.master"))
                 .set("spark.cassandra.connection.host", env.getProperty("relay42.iotdataprocessing.config.cassandra.host"))
                 .set("spark.cassandra.connection.port", env.getProperty("relay42.iotdataprocessing.config.cassandra.port"))
@@ -30,7 +29,7 @@ public class SparkConfig {
     @Bean
     public JavaStreamingContext javaSparkContext() {
         JavaStreamingContext jsc = new JavaStreamingContext(conf(), Durations.seconds(5));
-        //jsc.checkpoint(env.getProperty("relay42.iotdataprocessing.config.spark.checkpoint.dir"));
+        jsc.checkpoint(env.getProperty("relay42.iotdataprocessing.config.spark.checkpoint.dir"));
         return jsc;
     }
 

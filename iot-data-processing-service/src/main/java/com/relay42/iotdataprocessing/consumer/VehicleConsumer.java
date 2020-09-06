@@ -41,11 +41,9 @@ public class VehicleConsumer implements Serializable {
     public void startStreamProcessing() throws InterruptedException {
         Map<TopicPartition, Long> lastOffSet = buildLatestOffSet();
         JavaInputDStream<ConsumerRecord<String, H02DTO>> directKafkaStream = buildKafkaStream(lastOffSet);
-        //JavaDStream<H02DTO> values = directKafkaStream.map(ConsumerRecord::value);
         JavaDStream<H02DTO> transformedStream = directKafkaStream.transform(VehicleConsumer::getEnhancedObjWithKafkaInfo);
-        //startStreamProcessing(transformedStream);
-        commitOffset(directKafkaStream);
         startStreamProcessing(transformedStream);
+        commitOffset(directKafkaStream);
         jsc.start();
         jsc.awaitTermination();
     }
@@ -65,8 +63,6 @@ public class VehicleConsumer implements Serializable {
         try {
             Dataset<Row> parquet = sparkSession.read()
                     .parquet(properties.get("relay42.iotdataprocessing.config.hdfs.parquetLocation"));
-            //.parquet("hdfs://0.0.0.0:8020/iot-pipeline/iot-data-parque");
-            //.parquet(environment.getProperty("relay42.iotdataprocessing.config.hdfs.parquetLocation"));
 
             parquet.createTempView("vehicle-tracking");
             Dataset<Row> sql = parquet.sqlContext()
@@ -95,7 +91,6 @@ public class VehicleConsumer implements Serializable {
     ) {
         Map<String, Object> props = kafkaConfig.getProps();
         List<String> topicSet = Arrays.asList(properties.get("relay42.iotdataprocessing.config.kafka.topic").split(","));
-        System.out.println("TOPICS >>>>>>>  " + topicSet);
 
         ConsumerStrategy<String, H02DTO> subscribe;
         if (fromOffsets.isEmpty()) {
@@ -104,7 +99,6 @@ public class VehicleConsumer implements Serializable {
             subscribe = ConsumerStrategies.Subscribe(topicSet, props, fromOffsets);
         }
 
-        //subscribe = ConsumerStrategies.Subscribe(topicSet, props);
         return KafkaUtils.createDirectStream(
                 jsc,
                 LocationStrategies.PreferConsistent(),
@@ -132,12 +126,11 @@ public class VehicleConsumer implements Serializable {
     }
 
     private void startStreamProcessing(JavaDStream<H02DTO> nonFilteredIotDataStream) {
-        //appendDataToHDFS(sparkSession, nonFilteredIotDataStream);
-        //JavaDStream<H02DTO> filteredIotDataStream = getVehicleNotProcessed(nonFilteredIotDataStream);
+        appendDataToHDFS(sparkSession, nonFilteredIotDataStream);
+        JavaDStream<H02DTO> filteredIotDataStream = getVehicleNotProcessed(nonFilteredIotDataStream);
         //cache stream as it is used in many computation
-        //filteredIotDataStream.cache();
-        //connectedDeviceProcessor.processTotalConnectedDevices(filteredIotDataStream);
-        connectedDeviceProcessor.processTotalConnectedDevices(nonFilteredIotDataStream);
+        filteredIotDataStream.cache();
+        connectedDeviceProcessor.processTotalConnectedDevices(filteredIotDataStream);
     }
 
     private JavaDStream<H02DTO> getVehicleNotProcessed(JavaDStream<H02DTO> nonFilteredIotDataStream) {
@@ -189,7 +182,7 @@ public class VehicleConsumer implements Serializable {
             while (items.hasNext()) {
                 ConsumerRecord<String, H02DTO> next = items.next();
                 H02DTO dataItem = next.value();
-                //dataItem.setMetaData(meta);
+                dataItem.setMetaData(meta);
                 list.add(dataItem);
             }
             return list.iterator();

@@ -1,6 +1,10 @@
 version: "3.7"
 networks:
   net:
+    driver: bridge
+#    ipam:
+#      config:
+#        - subnet: 172.22.0.0/24
 
 services:
   zookeeper:
@@ -35,17 +39,18 @@ services:
 
   cassandra:
     image: 'bitnami/cassandra:latest'
-    hostname: cassandra
-    networks:
-      - net
     ports:
       - "9042:9042"
+    hostname: cassandra
+    container_name: cassandra-iot
+    networks:
+      net:
+#       ipv4_address: 172.22.0.6
     environment:
       - "MAX_HEAP_SIZE=256M"
       - "HEAP_NEWSIZE=128M"
-    container_name: cassandra-iot
     volumes:
-      - ./iot-data-processing-service/data/IoTData.cql:/schema.cql
+      - ./iot-data-processing-service/data/0001_create_key_space.cql:/schema.cql
 
   spark-master:
     image: bde2020/spark-master:2.4.0-hadoop2.7

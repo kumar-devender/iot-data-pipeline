@@ -15,3 +15,8 @@ The following guides illustrate how to use some features concretely:
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
 * [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
 
+### Plan
+* Add new processor data processor for each type of devices.
+* Add new data receiver for each type of device.
+* Create new Oauth service and add ad tab in the current project.
+

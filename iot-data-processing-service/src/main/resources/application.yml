@@ -5,6 +5,18 @@ spring:
     bootstrap-servers: localhost:9092
 #    consumer:
 #      group-id: 'iot-devices-group'
+#  data:
+#  cassandra:
+#    keyspace-name: iot_data_store
+#    contact-points: 127.0.0.1
+#    port: 9042
+#    password: cassandra
+#    username: cassandra
+#    local-datacenter: DC1
+#### Migration properties
+#cassandra:
+#  migration:
+#  keyspace-name: iot_data_store
 
 relay42:
   iotdataprocessing:
@@ -13,16 +25,20 @@ relay42:
         app:
           name: IOT data pipeline
         #master: spark://localhost:7077
-        master: local
+        master: local[*]
         checkpoint:
-          dir: hdfs://0.0.0.0:8020/iot-pipeline/checkpoint
+          dir: temp/iot-pipeline-data/checkpoint
+#         dir: hdfs://0.0.0.0:8020/iot-pipeline/checkpoint
       cassandra:
-        host: localhost
+        keyspace-name: iot_data_store
+        local-datacenter: DC1
+        host: 127.0.0.1
         port: 9042
         username: cassandra
         password: cassandra
         keep_alive: 10000
       hdfs:
-        parquetLocation: hdfs://0.0.0.0:8020/iot-pipeline/iot-data-parque
+#        parquetLocation: hdfs://0.0.0.0:8020/iot-pipeline/iot-data-parque
+        parquetLocation: /Users/devender.kumar/Documents/personal-space/iot-data-pipeline/iot-data-processing-service/iot-data-parque
       kafka:
         topic: H02
